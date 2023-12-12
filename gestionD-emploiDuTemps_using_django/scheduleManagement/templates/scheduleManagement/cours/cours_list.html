@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des Cours</title>
+</head>
+<body>
+    {% include 'scheduleManagement/navbar/navbar.html' %}
+    <h2 style="text-align: center;" >Liste des Cours</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom du Cours</th>
+                <th>Description</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in cours %}
+            <tr>
+                <td>{{ c.nom_cours }}</td>
+                <td>{{ c.description }}</td>
+                <td>
+                    <form method="POST" action="{% url 'delete_cours' c.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ c.id }}">
+                        Edit
+                    </button>
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="editModal{{ c.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Edit Course</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{% url 'edit_cours' c.id %}">
+                                        {% csrf_token %}
+                                        <input type="text" name="nom_cours" value="{{ c.nom_cours }}" class="form-control mb-2">
+                                        <textarea name="description" class="form-control mb-2">{{ c.description }}</textarea>
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

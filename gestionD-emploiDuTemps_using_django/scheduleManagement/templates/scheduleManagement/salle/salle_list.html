@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des Salles</title>
+</head>
+<body>
+    {% include 'scheduleManagement/navbar/navbar.html' %}
+    <h2 style="text-align: center;" >Liste des Salles</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom de la Salle</th>
+                <th>Capacité</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for salle in salles %}
+            <tr>
+                <td>{{ salle.nom_salle }}</td>
+                <td>{{ salle.capacite }}</td>
+                <td>
+                    <form method="POST" action="{% url 'delete_salle' salle.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ salle.id }}">
+                        Edit
+                    </button>
+                    <div class="modal fade" id="editModal{{ salle.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Edit Salle</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{% url 'edit_salle' salle.id %}">
+                                        {% csrf_token %}
+                                        <input type="text" name="nom_salle" value="{{ salle.nom_salle }}" class="form-control mb-2">
+                                        <input type="number" name="capacite" value="{{ salle.capacite }}" class="form-control mb-2">
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

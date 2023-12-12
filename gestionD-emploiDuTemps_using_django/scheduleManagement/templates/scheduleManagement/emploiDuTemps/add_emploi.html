@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Emploi du Temps</title>
+  </head>
+  <body>
+    {% include 'scheduleManagement/navbar/navbar.html' %}
+    <h2>Add Emploi du Temps</h2>
+    <form action="{% url 'add_emploi' %}" method="post">
+      {% csrf_token %}
+      <label for="jour_semaine">Jour de la semaine:</label>
+      <input
+        type="text"
+        id="jour_semaine"
+        name="jour_semaine"
+        required
+      /><br />
+
+      <label for="heure_debut">Heure de début:</label>
+      <input
+        type="text"
+        id="heure_debut"
+        name="heure_debut"
+        required
+      /><br /><br />
+
+      <label for="heure_fin">Heure de fin:</label>
+      <input type="text" id="heure_fin" name="heure_fin" required /><br /><br />
+
+      <label for="cours">Cours:</label>
+      <input type="text" id="cours" name="cours_id" required></input>
+      <br />
+
+      <label for="utilisateur">Utilisateur:</label>
+      <input type="text" id="utilisateur" name="utilisateur_id" required></input>
+      <br />
+
+      <label for="salle">Salle:</label>
+      <input type="text" id="salle" name="salle_id" required></input>
+      <br />
+
+      <input type="submit" value="Add Emploi du Temps" />
+    </form>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        
+      }
+
+      h2 {
+        text-align: center;
+      }
+
+      form {
+        width: 50%;
+        margin: 0 auto;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      select,
+      input[type="submit"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </body>
+</html>

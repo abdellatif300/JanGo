@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Liste des Emplois du Temps</title>
+</head>
+<body>
+    {% include 'scheduleManagement/navbar/navbar.html' %}
+    <h2 style="text-align: center;" >Liste des Emplois du Temps</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Jour de la Semaine</th>
+                <th>Heure de Début</th>
+                <th>Heure de Fin</th>
+                <th>Cours</th>
+                <th>Utilisateur</th>
+                <th>Salle</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for emploi in emplois %}
+            <tr>
+                <td>{{ emploi.jour_semaine }}</td>
+                <td>{{ emploi.heure_debut }}</td>
+                <td>{{ emploi.heure_fin }}</td>
+                <td>{{ emploi.cours.nom_cours }}</td>
+                <td>{{ emploi.utilisateur.nom }} {{ emploi.utilisateur.prenom }}</td>
+                <td>{{ emploi.salle.nom_salle }}</td>
+                <td>
+                    <form method="POST" action="{% url 'delete_emploi' emploi.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ emploi.id }}">
+                        Edit
+                    </button>
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="editModal{{ emploi.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editModalLabel">Edit Emploi du Temps</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Your edit form goes here -->
+                                    <!-- Example form, modify as needed -->
+                                    <form method="POST" action="{% url 'edit_emploi' emploi.id %}">
+                                        {% csrf_token %}
+                                        <!-- Edit form fields -->
+                                        <input type="text" name="jour_semaine" value="{{ emploi.jour_semaine }}" class="form-control mb-2">
+                                        <input type="text" name="heure_debut" value="{{ emploi.heure_debut }}" class="form-control mb-2">
+                                        <input type="text" name="heure_fin" value="{{ emploi.heure_fin }}" class="form-control mb-2">
+                                        <!-- Add other fields here as needed -->
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
